@@ -27,19 +27,3 @@ services:
     ports:
       - 80:80
     mem_limit: 4g
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  judgehost:
-    image: docker.io/domjudge/judgehost:9.0.0
-    hostname: judgehost
-    privileged: true
-    restart: always
-    environment:
-      - DAEMON_ID=0
-      - JUDGEDAEMON_PASSWORD=domjudgeisas
-      - DOMSERVER_BASEURL=http://domserver/
-      - CONTAINER_TIMEZONE='Asia/Bangkok'
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    links:
-      - domserver
