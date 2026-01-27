@@ -1,0 +1,9 @@
+services:
+  print-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: print-server
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
