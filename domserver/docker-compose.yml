@@ -1,29 +1,30 @@
 services:
   mariadb:
-    image: docker.io/mariadb
+    image: mariadb:10.11
     hostname: mariadb
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=domjudgeisas
-      - MYSQL_USER=domjudgeisas
-      - MYSQL_PASSWORD=domjudgeisas
-      - MYSQL_DATABASE=domjudgeisas
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: domjudge
+      MYSQL_USER: domjudge
+      MYSQL_PASSWORD: domjudge
     ports:
-      - 13306:3306
-    command: --max-connections=1000 --max-allowed-packet=1024M --innodb_snapshot_isolation=OFF
+      - "13306:3306"
     volumes:
-      - ./domserver-data:/var/lib/mysql:Z
+      - ./domserver-data:/var/lib/mysql
+
   domserver:
-    image: docker.io/domjudge/domserver:9.0.0
+    image: domjudge/domserver:9.0.0
     hostname: domserver
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=domjudgeisas
-      - MYSQL_USER=domjudgeisas
-      - MYSQL_PASSWORD=domjudgeisas
-      - MYSQL_DATABASE=domjudgeisas
-      - MYSQL_HOST=mariadb
-      - CONTAINER_TIMEZONE='Asia/Bangkok'
+      MYSQL_HOST: mariadb
+      MYSQL_DATABASE: domjudge
+      MYSQL_USER: domjudge
+      MYSQL_PASSWORD: domjudge
+      MYSQL_ROOT_PASSWORD: root
+      CONTAINER_TIMEZONE: Asia/Bangkok
     ports:
-      - 80:80
-    mem_limit: 4g
+      - "80:80"
+    depends_on:
+      - mariadb
