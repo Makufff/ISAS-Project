@@ -4,7 +4,7 @@ echo "🖨️  Setting up Print Client..."
 
 # Install required Python packages
 echo "📦 Installing required packages..."
-pip3 install requests
+pip3 install --user requests 2>/dev/null || echo "⚠️  Package might already be installed"
 
 # Get the script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
