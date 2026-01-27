@@ -10,21 +10,28 @@ class RPCHandler(BaseHTTPRequestHandler):
         data = json.loads(body)
         command = data.get("command")
         filename = data.get("file")
+        content = data.get("content", "")
         client_hostname = data.get("client_hostname", "Unknown")
         client_ip = data.get("client_ip", "Unknown")
 
         if command == "print":
-            # จำลองการ print (แทน lpd)
-            print_message = f"[PRINT JOB] {filename} | From: {client_hostname} ({client_ip})"
-            result = subprocess.run(
-                ["echo", print_message],
-                capture_output=True,
-                text=True
-            )
+            # แสดงข้อมูลการ print
+            print("\n" + "="*60)
+            print(f"🖨️  PRINT JOB RECEIVED")
+            print("="*60)
+            print(f"📄 File: {filename}")
+            print(f"👤 From: {client_hostname}")
+            print(f"🌐 IP: {client_ip}")
+            print("-"*60)
+            print("📝 Content:")
+            print("-"*60)
+            print(content)
+            print("="*60 + "\n")
 
             response = {
                 "status": "ok",
-                "output": result.stdout.strip(),
+                "message": f"Print job received from {client_hostname} ({client_ip})",
+                "file": filename,
                 "client_info": {
                     "hostname": client_hostname,
                     "ip": client_ip

@@ -17,9 +17,18 @@ try:
 except:
     ip_address = "Unknown"
 
+# อ่านเนื้อหาในไฟล์
+try:
+    with open(filename, 'r', encoding='utf-8') as f:
+        file_content = f.read()
+except Exception as e:
+    print(f"Error reading file: {e}")
+    sys.exit(1)
+
 payload = {
     "command": "print",
     "file": filename,
+    "content": file_content,
     "client_hostname": hostname,
     "client_ip": ip_address
 }
