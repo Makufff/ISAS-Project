@@ -1,17 +1,21 @@
+version: "3.9"
+
 services:
   judgehost:
-    image: docker.io/domjudge/judgehost:9.0.0
+    image: domjudge/judgehost:9.0.0
+    container_name: judgehost
     hostname: judgehost
+
     privileged: true
+    cgroupns: host
     restart: always
+
     environment:
-      - DAEMON_ID=0
-      # You must check the password in the Domserver Admin interface (Judgehosts -> verify judgehost user/password)
-      # Or check docker logs of domserver
-      - JUDGEDAEMON_PASSWORD=domjudgeisas  
-      # Replace with the IP address or hostname of your Domserver
-      # If running on the same machine, use the machine's local IP (not localhost/127.0.0.1)
-      - DOMSERVER_BASEURL=http://<DOMSERVER_IP>/
-      - CONTAINER_TIMEZONE=Asia/Bangkok
+      DAEMON_ID: 0
+      JUDGEDAEMON_PASSWORD: domjudgeisas
+      DOMSERVER_BASEURL: http://192.168.17.108
+      CONTAINER_TIMEZONE: Asia/Bangkok
+
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - /var/run/docker.sock:/var/run/docker.sock
